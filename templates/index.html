@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supio Draft by Example - MVP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Supio Draft by Example</h1>
+            <p class="subtitle">Generate legal documents from example templates</p>
+        </header>
+
+        <div class="two-column">
+            <!-- Left Column: Template Input -->
+            <div class="column">
+                <h2>Step 1: Provide Example Template</h2>
+                <p class="help-text">Paste your example document and use {{placeholders}} for variable fields</p>
+                <textarea id="template-text" placeholder="Example:
+
+COMPLAINT FOR PERSONAL INJURY
+
+Plaintiff: {{plaintiff_name}}
+Address: {{plaintiff_address}}
+
+vs.
+
+Defendant: {{defendant_name}}
+Address: {{defendant_address}}
+
+FACTS:
+On {{incident_date}}, the plaintiff sustained {{injury_description}} due to the negligent actions of the defendant...
+
+DAMAGES:
+Medical expenses: {{medical_expenses}}
+Lost wages: {{lost_wages}}
+Pain and suffering: {{pain_suffering}}
+
+Dated: {{date}}"></textarea>
+                <button id="save-template" class="btn btn-primary">Save Template</button>
+                <div id="template-status" class="status-message"></div>
+            </div>
+
+            <!-- Right Column: Case Facts Input -->
+            <div class="column">
+                <h2>Step 2: Enter Case Facts</h2>
+                <p class="help-text">Fill in the details for your specific case</p>
+
+                <div class="form-group">
+                    <label>Plaintiff Name:</label>
+                    <input type="text" id="plaintiff_name" placeholder="John Doe">
+                </div>
+
+                <div class="form-group">
+                    <label>Plaintiff Address:</label>
+                    <input type="text" id="plaintiff_address" placeholder="123 Main St, City, State ZIP">
+                </div>
+
+                <div class="form-group">
+                    <label>Defendant Name:</label>
+                    <input type="text" id="defendant_name" placeholder="Jane Smith">
+                </div>
+
+                <div class="form-group">
+                    <label>Defendant Address:</label>
+                    <input type="text" id="defendant_address" placeholder="456 Oak Ave, City, State ZIP">
+                </div>
+
+                <div class="form-group">
+                    <label>Incident Date:</label>
+                    <input type="text" id="incident_date" placeholder="January 15, 2024">
+                </div>
+
+                <div class="form-group">
+                    <label>Injury Description:</label>
+                    <textarea id="injury_description" placeholder="severe whiplash and back injuries"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Medical Expenses:</label>
+                    <input type="text" id="medical_expenses" placeholder="$50,000">
+                </div>
+
+                <div class="form-group">
+                    <label>Lost Wages:</label>
+                    <input type="text" id="lost_wages" placeholder="$15,000">
+                </div>
+
+                <div class="form-group">
+                    <label>Pain and Suffering:</label>
+                    <input type="text" id="pain_suffering" placeholder="$100,000">
+                </div>
+
+                <button id="generate-draft" class="btn btn-success">Generate Draft</button>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <h2>Step 3: Generated Draft</h2>
+            <div id="output" class="output-box">
+                <p class="placeholder-text">Your generated draft will appear here...</p>
+            </div>
+            <button id="copy-draft" class="btn btn-secondary" style="display: none;">Copy to Clipboard</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
