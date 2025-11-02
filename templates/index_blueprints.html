@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supio Draft by Example - Blueprints</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_blueprints.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Supio Draft by Example</h1>
+            <p class="subtitle">AI-Powered Legal Document Generation with Blueprints</p>
+        </header>
+
+        <!-- API Key Section -->
+        <div class="section api-key-section">
+            <h2>Step 0: OpenAI API Key</h2>
+            <p class="help-text">Enter your OpenAI API key to enable GPT-4 generation</p>
+            <div class="api-key-input-group">
+                <input type="password" id="api-key" placeholder="sk-..." />
+                <button id="save-api-key" class="btn btn-primary">Save API Key</button>
+            </div>
+            <div id="api-key-status" class="status-message"></div>
+        </div>
+
+        <!-- Blueprint Library Section -->
+        <div class="section blueprints-library-section">
+            <h2>📚 Blueprint Library</h2>
+            <p class="help-text">Saved templates for different document types</p>
+            <div id="blueprints-library" class="blueprints-grid">
+                <p class="placeholder-text">No blueprints saved yet. Create one below!</p>
+            </div>
+        </div>
+
+        <!-- Workflow Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="create">Create New Blueprint</button>
+            <button class="tab-btn" data-tab="generate">Generate from Blueprint</button>
+        </div>
+
+        <!-- Tab: Create Blueprint -->
+        <div id="tab-create" class="tab-content active">
+            <div class="two-column">
+                <!-- Upload Examples -->
+                <div class="column">
+                    <h2>Step 1: Upload Example Documents</h2>
+                    <p class="help-text">Upload 1-5 example documents (PDF, DOCX, TXT)</p>
+
+                    <div class="upload-zone" id="examples-drop-zone">
+                        <div class="upload-icon">📄</div>
+                        <p>Drag & drop files here or click to browse</p>
+                        <p class="file-types">Accepts: PDF, DOCX, TXT</p>
+                        <input type="file" id="examples-input" multiple accept=".pdf,.docx,.txt" style="display: none;">
+                    </div>
+
+                    <button id="upload-examples" class="btn btn-primary">Upload Examples</button>
+
+                    <div id="examples-status" class="status-message"></div>
+                    <div id="examples-list" class="file-list"></div>
+                </div>
+
+                <!-- Save as Blueprint -->
+                <div class="column">
+                    <h2>Step 2: Save as Blueprint</h2>
+                    <p class="help-text">Name your blueprint and add custom instructions</p>
+
+                    <div class="form-group">
+                        <label>Blueprint Name:</label>
+                        <input type="text" id="blueprint-name" placeholder="e.g., MVA Complaint - Plattner Verderame Style">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Custom Instructions (Optional):</label>
+                        <textarea id="custom-instructions" placeholder="E.g., Always include arbitration certificate. Use formal tone. Include detailed damages section."></textarea>
+                    </div>
+
+                    <button id="save-blueprint" class="btn btn-success">Save as Blueprint</button>
+
+                    <div id="blueprint-status" class="status-message"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Generate from Blueprint -->
+        <div id="tab-generate" class="tab-content">
+            <div class="two-column">
+                <!-- Select Blueprint -->
+                <div class="column">
+                    <h2>Step 1: Select Blueprint</h2>
+                    <p class="help-text">Choose which template to use for generation</p>
+
+                    <div class="form-group">
+                        <label>Blueprint:</label>
+                        <select id="blueprint-select" class="blueprint-select">
+                            <option value="">-- Select a Blueprint --</option>
+                        </select>
+                    </div>
+
+                    <div id="selected-blueprint-info" class="blueprint-info" style="display: none;">
+                        <h3>Blueprint Details:</h3>
+                        <p><strong>Name:</strong> <span id="info-name"></span></p>
+                        <p><strong>Created:</strong> <span id="info-date"></span></p>
+                        <p><strong>Examples:</strong> <span id="info-examples"></span></p>
+                        <p><strong>Used:</strong> <span id="info-usage"></span> times</p>
+                        <p><strong>Instructions:</strong> <span id="info-instructions"></span></p>
+                    </div>
+                </div>
+
+                <!-- Upload Case Data -->
+                <div class="column">
+                    <h2>Step 2: Upload Case Data</h2>
+                    <p class="help-text">Upload case files (medical records, reports, JSON, etc.)</p>
+
+                    <div class="upload-zone" id="case-drop-zone">
+                        <div class="upload-icon">📋</div>
+                        <p>Drag & drop files here or click to browse</p>
+                        <p class="file-types">Accepts: PDF, DOCX, TXT, JSON</p>
+                        <input type="file" id="case-input" multiple accept=".pdf,.docx,.txt,.json" style="display: none;">
+                    </div>
+
+                    <button id="upload-case-data" class="btn btn-primary">Upload Case Files</button>
+
+                    <div id="case-status" class="status-message"></div>
+                    <div id="case-list" class="file-list"></div>
+                </div>
+            </div>
+
+            <!-- Generate Section -->
+            <div class="section generate-section">
+                <h2>Step 3: Generate Document</h2>
+                <p class="help-text">AI will use your selected blueprint and case data to generate a draft</p>
+                <button id="generate-complaint" class="btn btn-success btn-large">Generate with GPT-4</button>
+                <div id="generate-status" class="status-message"></div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <h2>Generated Document</h2>
+            <div id="output" class="output-box">
+                <p class="placeholder-text">Your AI-generated document will appear here...</p>
+            </div>
+            <div class="button-group">
+                <button id="copy-complaint" class="btn btn-secondary" style="display: none;">Copy to Clipboard</button>
+            </div>
+        </div>
+
+        <!-- Status Footer -->
+        <div class="status-footer" id="status-footer">
+            <div class="status-item">
+                <span class="status-label">API Key:</span>
+                <span id="status-api-key" class="status-value">Not set</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Blueprints:</span>
+                <span id="status-blueprints" class="status-value">0</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Case Files:</span>
+                <span id="status-case" class="status-value">0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script_blueprints.js') }}"></script>
+</body>
+</html>
