@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supio Draft by Example - AI Powered</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_ai.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Supio Draft by Example</h1>
+            <p class="subtitle">AI-Powered Legal Document Generation</p>
+        </header>
+
+        <!-- API Key Section -->
+        <div class="section api-key-section">
+            <h2>Step 0: OpenAI API Key</h2>
+            <p class="help-text">Enter your OpenAI API key to enable GPT-4 generation</p>
+            <div class="api-key-input-group">
+                <input type="password" id="api-key" placeholder="sk-..." />
+                <button id="save-api-key" class="btn btn-primary">Save API Key</button>
+            </div>
+            <div id="api-key-status" class="status-message"></div>
+        </div>
+
+        <div class="two-column">
+            <!-- Left Column: Upload Examples -->
+            <div class="column">
+                <h2>Step 1: Upload Example Complaints</h2>
+                <p class="help-text">Upload 1-5 example complaints from your firm (PDF, DOCX, TXT)</p>
+
+                <div class="upload-zone" id="examples-drop-zone">
+                    <div class="upload-icon">📄</div>
+                    <p>Drag & drop files here or click to browse</p>
+                    <p class="file-types">Accepts: PDF, DOCX, TXT, JSON</p>
+                    <input type="file" id="examples-input" multiple accept=".pdf,.docx,.txt,.json" style="display: none;">
+                </div>
+
+                <button id="upload-examples" class="btn btn-primary">Upload Examples</button>
+
+                <div id="examples-status" class="status-message"></div>
+                <div id="examples-list" class="file-list"></div>
+            </div>
+
+            <!-- Right Column: Upload Case Data -->
+            <div class="column">
+                <h2>Step 2: Upload Case Data</h2>
+                <p class="help-text">Upload all relevant case files (medical records, incident reports, Filevine JSON, etc.)</p>
+
+                <div class="upload-zone" id="case-drop-zone">
+                    <div class="upload-icon">📋</div>
+                    <p>Drag & drop files here or click to browse</p>
+                    <p class="file-types">Accepts: PDF, DOCX, TXT, JSON</p>
+                    <input type="file" id="case-input" multiple accept=".pdf,.docx,.txt,.json" style="display: none;">
+                </div>
+
+                <button id="upload-case-data" class="btn btn-primary">Upload Case Files</button>
+
+                <div id="case-status" class="status-message"></div>
+                <div id="case-list" class="file-list"></div>
+            </div>
+        </div>
+
+        <!-- Generate Section -->
+        <div class="section generate-section">
+            <h2>Step 3: Generate Complaint</h2>
+            <p class="help-text">AI will analyze your examples and case data to draft a new complaint</p>
+            <button id="generate-complaint" class="btn btn-success btn-large">Generate Complaint with GPT-4</button>
+            <div id="generate-status" class="status-message"></div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section">
+            <h2>Generated Complaint</h2>
+            <div id="output" class="output-box">
+                <p class="placeholder-text">Your AI-generated complaint will appear here...</p>
+            </div>
+            <div class="button-group">
+                <button id="copy-complaint" class="btn btn-secondary" style="display: none;">Copy to Clipboard</button>
+            </div>
+        </div>
+
+        <!-- Status Footer -->
+        <div class="status-footer" id="status-footer">
+            <div class="status-item">
+                <span class="status-label">API Key:</span>
+                <span id="status-api-key" class="status-value">Not set</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Examples:</span>
+                <span id="status-examples" class="status-value">0 files</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Case Files:</span>
+                <span id="status-case" class="status-value">0 files</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script_ai.js') }}"></script>
+</body>
+</html>
